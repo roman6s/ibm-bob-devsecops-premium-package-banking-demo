@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/server.ts",
-    "test": "jest"
+    "test": "jest",
+    "demo:reset": "git checkout src/ infra/ package.json package-lock.json && npm test"
   },
   "dependencies": {
     "express": "4.17.1",
