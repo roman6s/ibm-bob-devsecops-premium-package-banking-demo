@@ -1,0 +1,28 @@
+{
+  "name": "geld-ueberweisung-service",
+  "version": "1.0.0",
+  "description": "Schlanker Demo-Microservice für Geldüberweisungen (SEPA Instant Payment)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "ts-node src/server.ts",
+    "test": "jest"
+  },
+  "dependencies": {
+    "express": "4.17.1",
+    "fast-xml-parser": "4.2.4",
+    "lodash": "4.17.20"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/lodash": "^4.14.202",
+    "@types/node": "^20.11.24",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.4",
+    "@types/supertest": "^6.0.2",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
