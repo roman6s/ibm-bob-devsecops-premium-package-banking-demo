@@ -1,8 +1,22 @@
 # 🎤 Demo-Leitfaden: IBM Bob DevSecOps Premium Package (5–7 Minuten)
 
-> **Zielgruppe:** Banking & Enterprise IT (Entscheider, Architekten, Product Owner, Entwickler)  
-> **Kontext:** `GeldUeberweisungService` (Schlanker Instant-Payment Microservice)  
+> **Zielgruppe:** Banking & Enterprise IT (Entscheider, Architekten, Product Owner, Entwickler)
+> **Kontext:** `GeldUeberweisungService` (Schlanker Instant-Payment Microservice)
 > **Fokus:** Echte USPs & Mehrwert – kein Sales-BlaBla, sondern saubere technische Fakten.
+
+---
+
+## 🏛️ Das 30-Sekunden Projekt-Intro (Architektur & Kontext)
+
+**Was du dem Publikum zeigst & sagst:**
+> *"Wir schauen uns hier den `GeldUeberweisungService` an – einen typischen, schlanken Backend-Microservice für SEPA-Echtzeitüberweisungen.
+> Die Architektur besteht aus vier simplen Bausteinen:
+> 1. **API Endpunkt (`api.ts`):** Nimmt Überweisungsaufträge und Kontostandsabfragen von der Banking-App entgegen.
+> 2. **Geschäftslogik (`geschaeftslogik.ts`):** Prüft Salden, Tageslimits und parst SEPA-XML-Nachrichten.
+> 3. **Konten-Datenbank (`datenbank.ts`):** Verwaltet Kontostände und Buchungsdatensätze.
+> 4. **Infrastruktur (`infra/datenbank_setup.tf`):** Bereitstellung der PostgreSQL-Datenbank per Terraform.
+>
+> Wir zeigen jetzt, wie das IBM Bob DevSecOps Package Entwicklern ermöglicht, Sicherheit, Supply-Chain-Risiken und Cloud-Infrastruktur direkt in der IDE zu managen – ohne Kontextwechsel."*
 
 ---
 
@@ -10,12 +24,11 @@
 
 | Zeit | Phase & Thema | Was du tust (Klickpfad / Aktion) | Was du sagst (Kernbotschaft) |
 | :--- | :--- | :--- | :--- |
-| **0:00 – 1:30** | **Intro & Security Dashboard (Header-Icon)** | 1. `GeldUeberweisungService` kurz vorstellen.<br>2. Oben im Bob-Panel auf das **Schild-Icon** klicken.<br>3. Die **Static Findings** (8 Total: 1 Critical, 4 High, 3 Medium) & **Security Watch** zeigen.<br>4. Auf den **"Fix all with Bob"** Button hinweisen. | *"Das ist unser GeldUeberweisungService für SEPA-Echtzeitzahlungen. Direkt oben im Bob-Panel sehen wir über das Schild-Symbol den Live-Sicherheitsstatus: 8 aggregierte Findings (1 Critical, 4 High, 3 Medium) aus Code, Secrets, Dependencies und Infrastruktur. Über 'Fix all with Bob' können wir sogar ganze Risikoklassen auf einmal beheben."* |
-| **1:30 – 3:00** | **Shift-Left im Code (Findings Details)** | 1. Datei `src/datenbank.ts` öffnen.<br>2. Auf das Finding zur SQL-Injection oder zum Secret klicken. | *"Security passiert bei Bob direkt beim Entwickeln. Statt vier separater Tools vereint Bob Trivy, Opengrep und KICS. Wir sehen die roten Wellenlinien und Erklärungen direkt an der betroffenen Code-Zeile."* |
-| **2:30 – 4:30** | **USP #1: Agentic Remediation ("Fix with Bob")** | 1. Im Findings-Panel auf **"Fix with Bob"** bei der SQL-Injection klicken.<br>2. Bob analysiert, patcht den Code und führt die Unittests aus. | *"Klassische Scanner werfen nur 300 Warnungen ab und lassen Entwickler allein. Bob repariert den Code autonom und führt sofort unsere Unittests aus. Nur wenn die Tests grün bleiben, ist der Fix verifiziert – Zero Regressions."* |
-| **4:30 – 5:45** | **USP #2: SafeWrite & AI Attack Surface Scan** | 1. SafeWrite erklären (in-memory Guardrail).<br>2. Im Bob Chat eingeben: `/attack-surface-scan`. | *"Warum nicht einfach Standard-Copilot? Copilot halluziniert oft unsichere Packages. Bob hat **SafeWrite**: Eine In-Memory-Barriere, die unsichere Dependencies vor dem Festplatten-Schreibvorgang abfängt. Zudem versteht `/attack-surface-scan` Datenflüsse und findet hier sofort unseren ungeschützten Admin-Endpunkt."* |
-| **5:45 – 7:00** | **USP #3: Ops & Infrastructure-as-Code** | 1. `infra/datenbank_setup.tf` öffnen.<br>2. Zeigen: Unverschlüsselte DB.<br>3. Prompt / Fix via `/terraform-devops`. | *"Auch das 'Ops' ist integriert: In unserer Terraform-Datei war die Datenbank unverschlüsselt. Bob erkennt IaC-Fehlkonfigurationen, wendet BSI/CIS-Standards an und verlangt vor jedem `apply` ein Entwickler-Approval."* |
-| **7:00+** | **Fazit & Q&A** | Zusammenfassung der 3 USPs zeigen. | *"DevSecOps ohne Kontextwechsel: Erkennen, autonomes Reparieren mit Testnachweis und AI-Guardrails in einer einzigen Plattform."* |
+| **0:00 – 1:30** | **1. Intro & Static Findings (Schild-Icon)** | 1. `GeldUeberweisungService` kurz mit den 4 Bausteinen vorstellen.<br>2. Oben im Bob-Panel auf das **Schild-Icon** klicken.<br>3. Die **Static Findings** zeigen (1 Critical, 4 High, 3 Medium in `package.json`). | *"Das ist unser GeldUeberweisungService für SEPA-Echtzeitüberweisungen. Oben im Bob Security Header sehen wir sofort den Live-Status: 8 Findings – aufgeteilt in Critical, High und Medium. Über 'Fix all with Bob' können wir sogar ganze Risikoklassen auf einmal bereinigen."* |
+| **1:30 – 3:30** | **2. Killer-Feature: 'Fix with Bob' (Supply Chain)** | 1. Beim **Critical Finding (`fast-xml-parser`)** auf **'Fix with Bob'** klicken.<br>2. Prompt approven.<br>3. Zeigen, dass Bob die Version auf 5.7.0 hochzieht und im Hintergrund `npm test` mit 4/4 Tests grün ausführt! | *"Das ist der entscheidende USP: Klassische Scanner werfen Entwicklern nur seitenlange Warnungen vor die Füße. Bob repariert die verwundbare Library autonom auf Version 5.7.0 und führt sofort im Hintergrund unsere Unittests aus. Nur wenn die Tests grün bleiben, ist der Fix verifiziert – Zero Regressions."* |
+| **3:30 – 5:30** | **3. Der AI-Vorsprung: Attack Surface Scan** | 1. Im Chat eingeben: `/attack-surface-scan`.<br>2. Die Ergebnisse zeigen (z.B. Ungeschützte Überweisung, Self-Transfer Money-Minting, unverschlüsseltes RDS in `datenbank_setup.tf`).<br>3. Auf **'Open this scan in the Security Dashboard'** klicken! | *"Warum reicht kein Standard-Copilot oder Linter? Statische Linter prüfen nur starre Regex-Muster. Bobs Attack Surface Scan versteht echte Datenflüsse und Fachlogik: Er deckt sofort auf, dass Überweisungen ungeschützt sind, dass Überweisungslimits umgangen werden können und dass die PostgreSQL-Infrastruktur unverschlüsselt ist."* |
+| **5:30 – 6:30** | **4. Ops & Terraform** | 1. Auf das IaC-Finding (`infra/datenbank_setup.tf`) verweisen.<br>2. Zeigen: Unverschlüsselte DB.<br>3. Bobs automatisierte Behebung / Terraform-Skill erwähnen. | *"Auch das 'Ops' in DevSecOps ist voll integriert. Bob prüft Infrastructure-as-Code nach BSI- und CIS-Benchmarks und sichert Cloud-Ressourcen ab, bevor sie deployed werden."* |
+| **6:30 – 7:30** | **5. Fazit & Q&A** | Zusammenfassung der USPs: 1) Closed-Loop Fix mit Tests, 2) SafeWrite Guardrail, 3) AI Attack Surface Modellierung, 4) Dashboard & DORA-Readiness. | *"DevSecOps ohne Kontextwechsel: Erkennen, autonomes Reparieren mit Testnachweis und AI-Guardrails in einer einzigen Plattform."* |
 
 ---
 
