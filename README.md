@@ -16,6 +16,56 @@ Ein schlanker, sofort einsatzbereiter Microservice zur Live-Demonstration des **
 
 ---
 
+## 🏛️ Architektur-Übersicht
+
+GitHub rendert diese Diagramme direkt in der Weboberfläche:
+
+### 1. Die reguläre Microservice-Architektur
+```mermaid
+flowchart LR
+    App[Banking App] -->|1. Überweisungs-Auftrag| API[API Endpunkt]
+    API -->|2. Validierung & Prüfung| Logic[Geschäftslogik]
+    Logic -->|3. Kontostand lesen & buchen| DB[(Konten Datenbank)]
+
+    subgraph GeldUeberweisungService [GeldUeberweisungService]
+        API
+        Logic
+    end
+
+    subgraph Infra [Infrastruktur]
+        TF[datenbank_setup.tf] -.->|definiert| DB
+    end
+```
+
+### 2. Die eingebauten Demo-Schwachstellen
+```mermaid
+flowchart LR
+    App[Banking App] -->|1. Überweisungs-Auftrag| API[API Endpunkt]
+    API -->|2. Validierung & Prüfung| Logic[Geschäftslogik]
+    Logic -->|3. Kontostand lesen & buchen| DB[(Konten Datenbank)]
+
+    subgraph GeldUeberweisungService [GeldUeberweisungService]
+        API
+        Logic
+    end
+
+    subgraph Infra [Infrastruktur]
+        TF[datenbank_setup.tf] -.->|definiert| DB
+    end
+
+    Vuln1[Ungeschützter Admin-Endpunkt<br/>für Limit-Änderungen] -.- API
+    Vuln2[SQL-Injection bei IBAN-Suche<br/>& hartkodiertes API-Passwort] -.- Logic
+    Vuln3[Veraltete Bibliothek mit<br/>bekannter Sicherheitslücke] -.- Logic
+    Vuln4[Datenbank-Festplatte<br/>ist unverschlüsselt] -.- TF
+
+    style Vuln1 fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    style Vuln2 fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    style Vuln3 fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+    style Vuln4 fill:#fee2e2,stroke:#ef4444,stroke-width:2px,color:#991b1b
+```
+
+---
+
 ## 📁 Projekt-Struktur
 
 ```
